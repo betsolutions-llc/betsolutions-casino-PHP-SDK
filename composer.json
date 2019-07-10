@@ -1,0 +1,13 @@
+{
+    "name": "betsolutions/casino-sdk",
+    "description": "Betsolutions casino SDK",
+    "type": "library",
+    "authors": [
+        {
+            "name": "tamaz bagdavadze",
+            "email": "t.bagdavadze@betsolutions.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
