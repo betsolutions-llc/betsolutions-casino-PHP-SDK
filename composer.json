@@ -9,5 +9,12 @@
         }
     ],
     "minimum-stability": "dev",
-    "require": {}
+    "require": {
+        "nategood/httpful": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Betsolutions\\Casino\\SDK\\":"src/"
+        }
+    }
 }
