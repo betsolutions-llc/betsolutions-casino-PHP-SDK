@@ -14,11 +14,9 @@ use JsonMapper_Exception;
 
 class GameService extends BaseService
 {
-    private $controller = 'Game';
-
     public function __construct(MerchantAuthInfo $authInfo)
     {
-        parent::__construct($authInfo);
+        parent::__construct($authInfo, 'Game');
     }
 
     /**

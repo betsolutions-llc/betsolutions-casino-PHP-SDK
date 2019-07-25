@@ -4,40 +4,38 @@
 namespace Betsolutions\Casino\SDK\Services;
 
 
-use Betsolutions\Casino\SDK\DTO\Rake\GetRakeRequest;
-use Betsolutions\Casino\SDK\DTO\Rake\GetRakeResponseContainer;
+use Betsolutions\Casino\SDK\DTO\Wallet\GetBalanceRequest;
+use Betsolutions\Casino\SDK\DTO\Wallet\GetBalanceResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
 use JsonMapper;
-use JsonMapper_Exception;
 
-class RakeService extends BaseService
+class WalletService extends BaseService
 {
     public function __construct(MerchantAuthInfo $authInfo)
     {
-        parent::__construct($authInfo, 'Rake');
+        parent::__construct($authInfo, 'Wallet');
     }
 
     /**
-     * @param GetRakeRequest $request
-     * @return GetRakeResponseContainer
+     * @param GetBalanceRequest $request
+     * @return GetBalanceResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws \JsonMapper_Exception
      */
-    public function getRake(GetRakeRequest $request): GetRakeResponseContainer
+    public function getBalance(GetBalanceRequest $request): GetBalanceResponseContainer
     {
-        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetRake";
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetBalance";
 
-        $rawHash = "{$this->authInfo->merchantId}|{$request->userId}|{$request->fromDate}|{$request->toDate}|{$request->gameId}|{$this->authInfo->privateKey}";
+        $rawHash = "{$request->currency}|{$this->authInfo->merchantId}|{$request->token}|{$request->userId}|{$this->authInfo->privateKey}";
         $hash = $this->getSha256($rawHash);
 
         $data['MerchantId'] = $this->authInfo->merchantId;
         $data['UserId'] = $request->userId;
-        $data['GameId'] = $request->gameId;
-        $data['FromDate'] = $request->fromDate;
-        $data['ToDate'] = $request->toDate;
+        $data['Token'] = $request->token;
+        $data['Currency'] = $request->currency;
         $data['Hash'] = $hash;
 
         try {
@@ -53,7 +51,7 @@ class RakeService extends BaseService
             throw new CantConnectToServerException($e->getCode(), $e->getMessage());
         }
 
-        $result = new GetRakeResponseContainer();
+        $result = new GetBalanceResponseContainer();
         $mapper = new JsonMapper();
 
         $result = $mapper->map($response->body, $result);
@@ -61,7 +59,7 @@ class RakeService extends BaseService
         return $this->cast($result);
     }
 
-    private function cast($obj): GetRakeResponseContainer
+    private function cast($obj): GetBalanceResponseContainer
     {
         return $obj;
     }
