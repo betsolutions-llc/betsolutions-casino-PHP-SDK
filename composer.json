@@ -1,20 +1,22 @@
 {
-    "name": "betsolutions/casino-sdk",
-    "description": "Betsolutions casino SDK",
-    "type": "library",
-    "authors": [
-        {
-            "name": "tamaz bagdavadze",
-            "email": "t.bagdavadze@betsolutions.com"
-        }
-    ],
-    "minimum-stability": "dev",
-    "require": {
-        "nategood/httpful": "*"
-    },
-    "autoload": {
-        "psr-4": {
-            "Betsolutions\\Casino\\SDK\\":"src/"
-        }
+  "name": "betsolutions/casino-sdk",
+  "description": "Betsolutions casino SDK",
+  "type": "library",
+  "authors": [
+    {
+      "name": "tamaz bagdavadze",
+      "email": "t.bagdavadze@betsolutions.com"
     }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "nategood/httpful": "*",
+    "ext-json": "*",
+    "netresearch/jsonmapper": "dev-master"
+  },
+  "autoload": {
+    "psr-4": {
+      "Betsolutions\\Casino\\SDK\\": "src/"
+    }
+  }
 }

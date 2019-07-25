@@ -9,6 +9,8 @@ use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
+use JsonMapper;
+use JsonMapper_Exception;
 
 class GameService extends BaseService
 {
@@ -22,6 +24,7 @@ class GameService extends BaseService
     /**
      * @return GetGamesResponseContainer
      * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
      */
     public function getGames(): GetGamesResponseContainer
     {
@@ -34,19 +37,25 @@ class GameService extends BaseService
         $data['Hash'] = $hash;
 
         try {
-            $response = Request::post($url, $data)
+            $response = Request::post($url, json_encode($data))
                 ->expectsJson()
+                ->sendsJson()
                 ->send();
+
         } catch (ConnectionErrorException $e) {
             throw new CantConnectToServerException($e->getCurlErrorNumber(), $e->getCurlErrorString());
         }
 
-        $result = $response->body;
+        $result = new GetGamesResponseContainer();
+        $mapper = new JsonMapper();
 
-        if(200 != $result->StatusCode){
-            return new GetGamesResponseContainer($result->StatusCode);
-        }
+        $result = $mapper->map($response->body, $result);
 
-        return new GetGamesResponseContainer($result->StatusCode, 'sfsf');
+        return $this->cast($result);
+    }
+
+    public function cast($obj): GetGamesResponseContainer
+    {
+        return $obj;
     }
 }

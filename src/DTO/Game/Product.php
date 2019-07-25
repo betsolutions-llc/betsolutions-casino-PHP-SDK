@@ -4,14 +4,14 @@
 namespace Betsolutions\Casino\SDK\DTO\Game;
 
 
-class GetGamesResponseContainer
+class Product
 {
     /**
      * @var integer
      */
-    public $statusCode;
+    public $productId;
     /**
-     * @var GetGamesResponse
+     * @var Game[]
      */
-    public $data;
+    public $games;
 }

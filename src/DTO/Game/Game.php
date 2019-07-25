@@ -14,5 +14,8 @@ class Game
     public $rtp;
     public $rakePercent;
     public $hasMobileDeviceSupport;
+    /**
+     * @var GameThumbnail[]
+     */
     public $thumbnails;
 }

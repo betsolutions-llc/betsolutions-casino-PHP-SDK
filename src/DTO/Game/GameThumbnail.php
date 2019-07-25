@@ -9,4 +9,5 @@ class GameThumbnail
     public $url;
     public $width;
     public $height;
+    public $lang;
 }
