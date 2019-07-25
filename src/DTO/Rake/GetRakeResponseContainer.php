@@ -5,7 +5,7 @@ namespace Betsolutions\Casino\SDK\DTO\Rake;
 class GetRakeResponseContainer
 {
     /**
-     * @var integer
+     * @var int
      */
     public $statusCode;
     /**

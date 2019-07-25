@@ -15,7 +15,7 @@ class GetRakeRequest
      */
     public $toDate;
     /**
-     * @var integer
+     * @var int
      */
     public $gameId;
     /**

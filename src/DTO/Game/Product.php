@@ -7,7 +7,7 @@ namespace Betsolutions\Casino\SDK\DTO\Game;
 class Product
 {
     /**
-     * @var integer
+     * @var int
      */
     public $productId;
     /**

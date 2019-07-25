@@ -7,7 +7,7 @@ namespace Betsolutions\Casino\SDK\DTO\Game;
 class GetGamesResponseContainer
 {
     /**
-     * @var integer
+     * @var int
      */
     public $statusCode;
     /**

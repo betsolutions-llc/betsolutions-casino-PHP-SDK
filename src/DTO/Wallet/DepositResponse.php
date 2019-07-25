@@ -1,9 +1,15 @@
 <?php
 
+
 namespace Betsolutions\Casino\SDK\DTO\Wallet;
 
-class GetBalanceResponse
+
+class DepositResponse
 {
+    /**
+     * @var string
+     */
+    public $transactionId;
     /**
      * @var int
      */

@@ -4,15 +4,14 @@
 namespace Betsolutions\Casino\SDK\DTO\Wallet;
 
 
-class GetBalanceResponseContainer
+class DepositResponseContainer
 {
     /**
      * @var int
      */
     public $statusCode;
     /**
-     * @var GetBalanceResponse
+     * @var DepositResponse
      */
     public $data;
 }
-
