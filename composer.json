@@ -12,7 +12,7 @@
   "require": {
     "nategood/httpful": "*",
     "ext-json": "*",
-    "netresearch/jsonmapper": "dev-master"
+    "netresearch/jsonmapper": "*"
   },
   "autoload": {
     "psr-4": {
