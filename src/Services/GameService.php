@@ -37,13 +37,16 @@ class GameService extends BaseService
         $data['Hash'] = $hash;
 
         try {
+            /** @noinspection PhpUndefinedMethodInspection */
             $response = Request::post($url, json_encode($data))
                 ->expectsJson()
                 ->sendsJson()
                 ->send();
 
-        } catch (ConnectionErrorException $e) {
-            throw new CantConnectToServerException($e->getCurlErrorNumber(), $e->getCurlErrorString());
+        } /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (ConnectionErrorException $e) {
+
+            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
         }
 
         $result = new GetGamesResponseContainer();
