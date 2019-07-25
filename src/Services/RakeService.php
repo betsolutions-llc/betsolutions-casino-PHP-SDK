@@ -4,7 +4,8 @@
 namespace Betsolutions\Casino\SDK\Services;
 
 
-use Betsolutions\Casino\SDK\DTO\Game\GetGamesResponseContainer;
+use Betsolutions\Casino\SDK\DTO\Rake\GetRakeRequest;
+use Betsolutions\Casino\SDK\DTO\Rake\GetRakeResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Httpful\Exception\ConnectionErrorException;
@@ -12,9 +13,9 @@ use Httpful\Request;
 use JsonMapper;
 use JsonMapper_Exception;
 
-class GameService extends BaseService
+class RakeService extends BaseService
 {
-    private $controller = 'Game';
+    private $controller = 'Rake';
 
     public function __construct(MerchantAuthInfo $authInfo)
     {
@@ -22,18 +23,23 @@ class GameService extends BaseService
     }
 
     /**
-     * @return GetGamesResponseContainer
+     * @param GetRakeRequest $request
+     * @return GetRakeResponseContainer
      * @throws CantConnectToServerException
      * @throws JsonMapper_Exception
      */
-    public function getGames(): GetGamesResponseContainer
+    public function getRake(GetRakeRequest $request): GetRakeResponseContainer
     {
-        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetGameList";
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetRake";
 
-        $rawHash = "{$this->authInfo->merchantId}|{$this->authInfo->privateKey}";
+        $rawHash = "{$this->authInfo->merchantId}|{$request->userId}|{$request->fromDate}|{$request->toDate}|{$request->gameId}|{$this->authInfo->privateKey}";
         $hash = $this->getSha256($rawHash);
 
         $data['MerchantId'] = $this->authInfo->merchantId;
+        $data['UserId'] = $request->userId;
+        $data['GameId'] = $request->gameId;
+        $data['FromDate'] = $request->fromDate;
+        $data['ToDate'] = $request->toDate;
         $data['Hash'] = $hash;
 
         try {
@@ -49,7 +55,7 @@ class GameService extends BaseService
             throw new CantConnectToServerException($e->getCode(), $e->getMessage());
         }
 
-        $result = new GetGamesResponseContainer();
+        $result = new GetRakeResponseContainer();
         $mapper = new JsonMapper();
 
         $result = $mapper->map($response->body, $result);
@@ -57,7 +63,7 @@ class GameService extends BaseService
         return $this->cast($result);
     }
 
-    private function cast($obj): GetGamesResponseContainer
+    private function cast($obj): GetRakeResponseContainer
     {
         return $obj;
     }
