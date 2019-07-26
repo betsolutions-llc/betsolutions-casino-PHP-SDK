@@ -13,7 +13,8 @@
     "nategood/httpful": "*",
     "ext-json": "*",
     "netresearch/jsonmapper": "*",
-    "php": ">=7.3.0"
+    "php": ">=7.3.0",
+    "myclabs/php-enum": "^1.7"
   },
   "autoload": {
     "psr-4": {

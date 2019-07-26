@@ -4,10 +4,13 @@
 namespace Betsolutions\Casino\SDK\TableGames\Backgammon\DTO;
 
 
+use Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonGameType;
+use Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonTournamentType;
+
 class GetBackgammonTournamentsRequest
 {
     /**
-     * @var int
+     * @var BackgammonGameType
      */
     public $gameTypeId;
     /**
@@ -27,7 +30,7 @@ class GetBackgammonTournamentsRequest
      */
     public $startDateTo;
     /**
-     * @var int
+     * @var BackgammonTournamentType
      */
     public $tournamentTypeId;
     /**
