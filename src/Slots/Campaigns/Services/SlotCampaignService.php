@@ -11,6 +11,7 @@ use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignResponseContainer;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotConfigsResponseContainer;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
 use JsonMapper;
@@ -128,12 +129,53 @@ class SlotCampaignService extends BaseService
         return $this->castDeactivateSlotCampaignModel($result);
     }
 
+    /**
+     * @return GetSlotConfigsResponseContainer
+     * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
+     */
+    public function getSlotConfigs(): GetSlotConfigsResponseContainer
+    {
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetMerchantSlotConfigs";
+
+        $rawHash = "{$this->authInfo->merchantId}|{$this->authInfo->privateKey}";
+        $hash = $this->getSha256($rawHash);
+
+        $data['MerchantId'] = $this->authInfo->merchantId;
+        $data['Hash'] = $hash;
+
+        try {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $response = Request::post($url, json_encode($data))
+                ->expectsJson()
+                ->sendsJson()
+                ->send();
+
+        } /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (ConnectionErrorException $e) {
+
+            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
+        }
+
+        $result = new GetSlotConfigsResponseContainer();
+        $mapper = new JsonMapper();
+
+        $result = $mapper->map($response->body, $result);
+
+        return $this->castGetSlotConfigsModel($result);
+    }
+
     private function castCreateSlotCampaignModel($obj): CreateSlotCampaignResponseContainer
     {
         return $obj;
     }
 
     private function castDeactivateSlotCampaignModel($obj): DeactivateSlotCampaignResponseContainer
+    {
+        return $obj;
+    }
+
+    private function castGetSlotConfigsModel($obj): GetSlotConfigsResponseContainer
     {
         return $obj;
     }
