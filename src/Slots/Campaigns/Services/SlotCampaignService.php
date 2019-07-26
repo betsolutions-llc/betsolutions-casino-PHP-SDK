@@ -9,6 +9,8 @@ use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignResponseContainer;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignRequest;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignResponseContainer;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
 use JsonMapper;
@@ -23,7 +25,6 @@ class SlotCampaignService extends BaseService
 
     private function generateBetAmountsPerCurrency(array $betAmounts)
     {
-
         $result = array();
 
         foreach ($betAmounts as $k => $v) {
@@ -54,7 +55,6 @@ class SlotCampaignService extends BaseService
         $playerIdsJson = json_encode($request->playerIds);
 
         $rawHash = "{$request->campaignTypeId}|{$request->endDate}|{$request->startDate}|{$request->freespinCount}|{$request->gameId}|{$this->authInfo->merchantId}|{$request->name}|{$betAmountsJson}|{$playerIdsJson}|{$this->authInfo->privateKey}";
-
         $hash = $this->getSha256($rawHash);
 
         $data['MerchantId'] = $this->authInfo->merchantId;
@@ -90,7 +90,50 @@ class SlotCampaignService extends BaseService
         return $this->castCreateSlotCampaignModel($result);
     }
 
+    /**
+     * @param DeactivateSlotCampaignRequest $request
+     * @return DeactivateSlotCampaignResponseContainer
+     * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
+     */
+    public function deactivateSlotCampaign(DeactivateSlotCampaignRequest $request): DeactivateSlotCampaignResponseContainer
+    {
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/DeactivateSlotCampaign";
+
+        $rawHash = "{$this->authInfo->merchantId}|{$request->id}|{$this->authInfo->privateKey}";
+        $hash = $this->getSha256($rawHash);
+
+        $data['MerchantId'] = $this->authInfo->merchantId;
+        $data['Id'] = $request->id;
+        $data['Hash'] = $hash;
+
+        try {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $response = Request::post($url, json_encode($data))
+                ->expectsJson()
+                ->sendsJson()
+                ->send();
+
+        } /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (ConnectionErrorException $e) {
+
+            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
+        }
+
+        $result = new DeactivateSlotCampaignResponseContainer();
+        $mapper = new JsonMapper();
+
+        $result = $mapper->map($response->body, $result);
+
+        return $this->castDeactivateSlotCampaignModel($result);
+    }
+
     private function castCreateSlotCampaignModel($obj): CreateSlotCampaignResponseContainer
+    {
+        return $obj;
+    }
+
+    private function castDeactivateSlotCampaignModel($obj): DeactivateSlotCampaignResponseContainer
     {
         return $obj;
     }
