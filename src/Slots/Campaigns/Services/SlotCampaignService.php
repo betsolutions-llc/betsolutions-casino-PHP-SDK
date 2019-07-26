@@ -18,7 +18,6 @@ use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsResponseContaine
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignStatusesResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignTypesResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotConfigsResponseContainer;
-use JsonMapper;
 use JsonMapper_Exception;
 
 class SlotCampaignService extends BaseService
@@ -77,9 +76,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new CreateSlotCampaignResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castCreateSlotCampaignModel($result);
     }
@@ -104,9 +101,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new DeactivateSlotCampaignResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castDeactivateSlotCampaignModel($result);
     }
@@ -129,9 +124,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetSlotConfigsResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castGetSlotConfigsModel($result);
     }
@@ -167,9 +160,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetSlotCampaignsResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castGetSlotCampaignsModel($result);
     }
@@ -186,9 +177,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $this->EMPTY_ARRAY);
 
         $result = new GetSlotCampaignStatusesResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castGetSlotCampaignStatusesModel($result);
     }
@@ -205,9 +194,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $this->EMPTY_ARRAY);
 
         $result = new GetSlotCampaignTypesResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castGetSlotCampaignTypesModel($result);
     }
@@ -235,9 +222,7 @@ class SlotCampaignService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new AddPlayersToCampaignResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castAddPlayersToCampaignResponseModel($result);
     }

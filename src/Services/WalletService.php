@@ -12,7 +12,6 @@ use Betsolutions\Casino\SDK\DTO\Wallet\WithdrawRequest;
 use Betsolutions\Casino\SDK\DTO\Wallet\WithdrawResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
-use JsonMapper;
 use JsonMapper_Exception;
 
 class WalletService extends BaseService
@@ -44,9 +43,7 @@ class WalletService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetBalanceResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castGetBalance($result);
     }
@@ -75,9 +72,7 @@ class WalletService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new DepositResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castDeposit($result);
     }
@@ -106,9 +101,7 @@ class WalletService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new WithdrawResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castWithdraw($result);
     }

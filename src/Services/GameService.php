@@ -7,7 +7,6 @@ namespace Betsolutions\Casino\SDK\Services;
 use Betsolutions\Casino\SDK\DTO\Game\GetGamesResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
-use JsonMapper;
 use JsonMapper_Exception;
 
 class GameService extends BaseService
@@ -35,9 +34,7 @@ class GameService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetGamesResponseContainer();
-        $mapper = new JsonMapper();
-
-        $result = $mapper->map($response->body, $result);
+        $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->cast($result);
     }
