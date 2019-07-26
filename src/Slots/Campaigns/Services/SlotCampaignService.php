@@ -228,7 +228,7 @@ class SlotCampaignService extends BaseService
 
         try {
             /** @noinspection PhpUndefinedMethodInspection */
-            $response = Request::post($url, json_encode((object)[]))
+            $response = Request::post($url, json_encode($this->EMPTY_OBJECT))
                 ->expectsJson()
                 ->sendsJson()
                 ->send();

@@ -10,9 +10,11 @@ abstract class BaseService
 {
     protected $authInfo;
     protected $controller;
+    protected $EMPTY_OBJECT;
 
     public function __construct(MerchantAuthInfo $authInfo, string $controller)
     {
+        $this->EMPTY_OBJECT  = (object)[];
         $this->authInfo = $authInfo;
         $this->controller = $controller;
     }
