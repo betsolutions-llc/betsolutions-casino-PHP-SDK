@@ -9,6 +9,7 @@ use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonTournamentsRequest;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonTournamentsResponseContainer;
+use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonTournamentStatusesResponseContainer;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonTournamentTypesResponseContainer;
 use JsonMapper;
 use JsonMapper_Exception;
@@ -76,12 +77,36 @@ class BackgammonTournamentService extends BaseService
         return $this->castTypes($result);
     }
 
+    /**
+     * @return GetBackgammonTournamentStatusesResponseContainer
+     * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
+     */
+    public function getTournamentStatuses(): GetBackgammonTournamentStatusesResponseContainer
+    {
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetTournamentStatuses";
+
+        $response = $this->postRequest($url, $this->EMPTY_ARRAY);
+
+        $result = new GetBackgammonTournamentStatusesResponseContainer();
+        $mapper = new JsonMapper();
+
+        $result = $mapper->map($response->body, $result);
+
+        return $this->castStatuses($result);
+    }
+
     private function cast($obj): GetBackgammonTournamentsResponseContainer
     {
         return $obj;
     }
 
     private function castTypes($obj): GetBackgammonTournamentTypesResponseContainer
+    {
+        return $obj;
+    }
+
+    private function castStatuses($obj): GetBackgammonTournamentStatusesResponseContainer
     {
         return $obj;
     }
