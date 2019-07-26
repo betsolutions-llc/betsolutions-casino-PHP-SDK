@@ -12,7 +12,8 @@
   "require": {
     "nategood/httpful": "*",
     "ext-json": "*",
-    "netresearch/jsonmapper": "*"
+    "netresearch/jsonmapper": "*",
+    "php": ">=7.3.0"
   },
   "autoload": {
     "psr-4": {
