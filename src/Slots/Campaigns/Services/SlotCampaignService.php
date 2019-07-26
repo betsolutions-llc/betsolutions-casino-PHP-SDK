@@ -245,7 +245,7 @@ class SlotCampaignService extends BaseService
 
         $result = $mapper->map($response->body, $result);
 
-        return $this->castGetSlotStatusesModel($result);
+        return $this->castGetSlotCampaignStatusesModel($result);
     }
 
     /**
@@ -275,7 +275,7 @@ class SlotCampaignService extends BaseService
 
         $result = $mapper->map($response->body, $result);
 
-        return $this->castGetSlotTypesModel($result);
+        return $this->castGetSlotCampaignTypesModel($result);
     }
 
     private function castCreateSlotCampaignModel($obj): CreateSlotCampaignResponseContainer
@@ -298,12 +298,12 @@ class SlotCampaignService extends BaseService
         return $obj;
     }
 
-    private function castGetSlotStatusesModel($obj): GetSlotCampaignStatusesResponseContainer
+    private function castGetSlotCampaignStatusesModel($obj): GetSlotCampaignStatusesResponseContainer
     {
         return $obj;
     }
 
-    private function castGetSlotTypesModel($obj): GetSlotCampaignTypesResponseContainer
+    private function castGetSlotCampaignTypesModel($obj): GetSlotCampaignTypesResponseContainer
     {
         return $obj;
     }
