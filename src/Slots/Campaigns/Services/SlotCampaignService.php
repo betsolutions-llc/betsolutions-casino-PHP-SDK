@@ -7,6 +7,8 @@ namespace Betsolutions\Casino\SDK\Slots\Campaigns\Services;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\AddPlayersToCampaignResponseContainer;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\AddPlayersToSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignRequest;
@@ -278,6 +280,47 @@ class SlotCampaignService extends BaseService
         return $this->castGetSlotCampaignTypesModel($result);
     }
 
+    /**
+     * @param AddPlayersToSlotCampaignRequest $request
+     * @return AddPlayersToCampaignResponseContainer
+     * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
+     */
+    public function addPlayersToCampaign(AddPlayersToSlotCampaignRequest $request): AddPlayersToCampaignResponseContainer
+    {
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/AddPlayersToSlotCampaign";
+
+        $playerIdsJson = json_encode($request->playerIds);
+
+        $rawHash = "{$request->campaignId}|{$this->authInfo->merchantId}|{$playerIdsJson}|{$this->authInfo->privateKey}";
+        $hash = $this->getSha256($rawHash);
+
+        $data['MerchantId'] = $this->authInfo->merchantId;
+        $data['PlayerIds'] = $request->playerIds;
+        $data['CampaignId'] = $request->campaignId;
+        $data['Hash'] = $hash;
+
+        try {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $response = Request::post($url, json_encode($data))
+                ->expectsJson()
+                ->sendsJson()
+                ->send();
+
+        } /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (ConnectionErrorException $e) {
+
+            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
+        }
+
+        $result = new AddPlayersToCampaignResponseContainer();
+        $mapper = new JsonMapper();
+
+        $result = $mapper->map($response->body, $result);
+
+        return $this->castAddPlayersToCampaignResponseModel($result);
+    }
+
     private function castCreateSlotCampaignModel($obj): CreateSlotCampaignResponseContainer
     {
         return $obj;
@@ -304,6 +347,11 @@ class SlotCampaignService extends BaseService
     }
 
     private function castGetSlotCampaignTypesModel($obj): GetSlotCampaignTypesResponseContainer
+    {
+        return $obj;
+    }
+
+    private function castAddPlayersToCampaignResponseModel($obj): AddPlayersToCampaignResponseContainer
     {
         return $obj;
     }
