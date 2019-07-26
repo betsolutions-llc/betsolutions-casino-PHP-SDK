@@ -11,6 +11,8 @@ use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\CreateSlotCampaignResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignResponseContainer;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsRequest;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotConfigsResponseContainer;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
@@ -165,6 +167,55 @@ class SlotCampaignService extends BaseService
         return $this->castGetSlotConfigsModel($result);
     }
 
+    /**
+     * @param GetSlotCampaignsRequest $request
+     * @return GetSlotCampaignsResponseContainer
+     * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
+     */
+    public function getSlotCampaigns(GetSlotCampaignsRequest $request): GetSlotCampaignsResponseContainer
+    {
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetSlotCampaigns";
+
+        $rawHash = "{$this->authInfo->merchantId}|{$request->campaignId}|{$request->endDateFrom}|{$request->endDateTo}|{$request->startDateFrom}|{$request->startDateTo}|"
+            ."{$request->statusId}|{$request->gameId}|{$request->name}|{$request->orderingDirection}|{$request->orderingField}|{$request->pageIndex}|{$request->pageSize}|{$this->authInfo->privateKey}";
+        $hash = $this->getSha256($rawHash);
+
+        $data['MerchantId'] = $this->authInfo->merchantId;
+        $data['EndDateFrom'] = $request->endDateFrom;
+        $data['EndDateTo'] = $request->endDateTo;
+        $data['StartDateFrom'] = $request->startDateFrom;
+        $data['StartDateTo'] = $request->startDateTo;
+        $data['StatusId'] = $request->statusId;
+        $data['GameId'] = $request->gameId;
+        $data['Name'] = $request->name;
+        $data['OrderingDirection'] = $request->orderingDirection;
+        $data['OrderingField'] = $request->orderingField;
+        $data['PageIndex'] = $request->pageIndex;
+        $data['PageSize'] = $request->pageSize;
+        $data['Hash'] = $hash;
+
+        try {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $response = Request::post($url, json_encode($data))
+                ->expectsJson()
+                ->sendsJson()
+                ->send();
+
+        } /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (ConnectionErrorException $e) {
+
+            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
+        }
+
+        $result = new GetSlotCampaignsResponseContainer();
+        $mapper = new JsonMapper();
+
+        $result = $mapper->map($response->body, $result);
+
+        return $this->castGetSlotCampaignsModel($result);
+    }
+
     private function castCreateSlotCampaignModel($obj): CreateSlotCampaignResponseContainer
     {
         return $obj;
@@ -176,6 +227,11 @@ class SlotCampaignService extends BaseService
     }
 
     private function castGetSlotConfigsModel($obj): GetSlotConfigsResponseContainer
+    {
+        return $obj;
+    }
+
+    private function castGetSlotCampaignsModel($obj): GetSlotCampaignsResponseContainer
     {
         return $obj;
     }
