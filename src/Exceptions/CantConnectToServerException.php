@@ -8,23 +8,16 @@ use Exception;
 
 class CantConnectToServerException extends Exception
 {
-    private $curlErrorNumber;
-    private $curlErrorString;
+    private $httpStatusCode;
 
-    public function __construct(int $curlErrorNumber, string $curlErrorString)
+    public function __construct(int $httpStatusCode, string $message = null)
     {
-        parent::__construct($curlErrorString);
-        $this->curlErrorNumber = $curlErrorNumber;
-        $this->curlErrorString = $curlErrorString;
+        parent::__construct($message);
+        $this->httpStatusCode = $httpStatusCode;
     }
 
-    public function getCurlErrorString(): string
+    public function getHttpStatusCode(): int
     {
-        return $this->curlErrorString;
-    }
-
-    public function getCurlErrorNumber(): int
-    {
-        return $this->curlErrorNumber;
+        return $this->httpStatusCode;
     }
 }

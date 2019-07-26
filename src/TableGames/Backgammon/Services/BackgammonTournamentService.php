@@ -9,9 +9,8 @@ use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonTournamentsRequest;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonTournamentsResponseContainer;
-use Httpful\Exception\ConnectionErrorException;
-use Httpful\Request;
 use JsonMapper;
+use JsonMapper_Exception;
 
 class BackgammonTournamentService extends BaseService
 {
@@ -23,7 +22,7 @@ class BackgammonTournamentService extends BaseService
     /**
      * @param GetBackgammonTournamentsRequest $request
      * @return GetBackgammonTournamentsResponseContainer
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      * @throws CantConnectToServerException
      */
     public function getTournaments(GetBackgammonTournamentsRequest $request): GetBackgammonTournamentsResponseContainer
@@ -47,18 +46,7 @@ class BackgammonTournamentService extends BaseService
         $data['PageSize'] = $request->pageSize;
         $data['Hash'] = $hash;
 
-        try {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $response = Request::post($url, json_encode($data))
-                ->expectsJson()
-                ->sendsJson()
-                ->send();
-
-        } /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (ConnectionErrorException $e) {
-
-            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
-        }
+        $response = $this->postRequest($url, $data);
 
         $result = new GetBackgammonTournamentsResponseContainer();
         $mapper = new JsonMapper();

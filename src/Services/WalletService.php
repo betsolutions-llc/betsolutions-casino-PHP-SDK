@@ -12,9 +12,8 @@ use Betsolutions\Casino\SDK\DTO\Wallet\WithdrawRequest;
 use Betsolutions\Casino\SDK\DTO\Wallet\WithdrawResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
-use Httpful\Exception\ConnectionErrorException;
-use Httpful\Request;
 use JsonMapper;
+use JsonMapper_Exception;
 
 class WalletService extends BaseService
 {
@@ -27,7 +26,7 @@ class WalletService extends BaseService
      * @param GetBalanceRequest $request
      * @return GetBalanceResponseContainer
      * @throws CantConnectToServerException
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function getBalance(GetBalanceRequest $request): GetBalanceResponseContainer
     {
@@ -42,18 +41,7 @@ class WalletService extends BaseService
         $data['Currency'] = $request->currency;
         $data['Hash'] = $hash;
 
-        try {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $response = Request::post($url, json_encode($data))
-                ->expectsJson()
-                ->sendsJson()
-                ->send();
-
-        } /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (ConnectionErrorException $e) {
-
-            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
-        }
+        $response = $this->postRequest($url, $data);
 
         $result = new GetBalanceResponseContainer();
         $mapper = new JsonMapper();
@@ -67,7 +55,7 @@ class WalletService extends BaseService
      * @param DepositRequest $request
      * @return DepositResponseContainer
      * @throws CantConnectToServerException
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function deposit(DepositRequest $request): DepositResponseContainer
     {
@@ -84,18 +72,7 @@ class WalletService extends BaseService
         $data['Currency'] = $request->currency;
         $data['Hash'] = $hash;
 
-        try {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $response = Request::post($url, json_encode($data))
-                ->expectsJson()
-                ->sendsJson()
-                ->send();
-
-        } /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (ConnectionErrorException $e) {
-
-            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
-        }
+        $response = $this->postRequest($url, $data);
 
         $result = new DepositResponseContainer();
         $mapper = new JsonMapper();
@@ -109,7 +86,7 @@ class WalletService extends BaseService
      * @param WithdrawRequest $request
      * @return WithdrawResponseContainer
      * @throws CantConnectToServerException
-     * @throws \JsonMapper_Exception
+     * @throws JsonMapper_Exception
      */
     public function withdraw(WithdrawRequest $request): WithdrawResponseContainer
     {
@@ -126,18 +103,7 @@ class WalletService extends BaseService
         $data['Currency'] = $request->currency;
         $data['Hash'] = $hash;
 
-        try {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $response = Request::post($url, json_encode($data))
-                ->expectsJson()
-                ->sendsJson()
-                ->send();
-
-        } /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (ConnectionErrorException $e) {
-
-            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
-        }
+        $response = $this->postRequest($url, $data);
 
         $result = new WithdrawResponseContainer();
         $mapper = new JsonMapper();

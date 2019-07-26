@@ -7,8 +7,6 @@ namespace Betsolutions\Casino\SDK\Services;
 use Betsolutions\Casino\SDK\DTO\Game\GetGamesResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
-use Httpful\Exception\ConnectionErrorException;
-use Httpful\Request;
 use JsonMapper;
 use JsonMapper_Exception;
 
@@ -34,18 +32,7 @@ class GameService extends BaseService
         $data['MerchantId'] = $this->authInfo->merchantId;
         $data['Hash'] = $hash;
 
-        try {
-            /** @noinspection PhpUndefinedMethodInspection */
-            $response = Request::post($url, json_encode($data))
-                ->expectsJson()
-                ->sendsJson()
-                ->send();
-
-        } /** @noinspection PhpRedundantCatchClauseInspection */
-        catch (ConnectionErrorException $e) {
-
-            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
-        }
+        $response = $this->postRequest($url, $data);
 
         $result = new GetGamesResponseContainer();
         $mapper = new JsonMapper();
