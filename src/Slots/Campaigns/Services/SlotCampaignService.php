@@ -13,6 +13,7 @@ use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsResponseContainer;
+use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignStatusesResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotConfigsResponseContainer;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
@@ -178,7 +179,7 @@ class SlotCampaignService extends BaseService
         $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetSlotCampaigns";
 
         $rawHash = "{$this->authInfo->merchantId}|{$request->campaignId}|{$request->endDateFrom}|{$request->endDateTo}|{$request->startDateFrom}|{$request->startDateTo}|"
-            ."{$request->statusId}|{$request->gameId}|{$request->name}|{$request->orderingDirection}|{$request->orderingField}|{$request->pageIndex}|{$request->pageSize}|{$this->authInfo->privateKey}";
+            . "{$request->statusId}|{$request->gameId}|{$request->name}|{$request->orderingDirection}|{$request->orderingField}|{$request->pageIndex}|{$request->pageSize}|{$this->authInfo->privateKey}";
         $hash = $this->getSha256($rawHash);
 
         $data['MerchantId'] = $this->authInfo->merchantId;
@@ -216,6 +217,36 @@ class SlotCampaignService extends BaseService
         return $this->castGetSlotCampaignsModel($result);
     }
 
+    /**
+     * @return GetSlotCampaignStatusesResponseContainer
+     * @throws CantConnectToServerException
+     * @throws JsonMapper_Exception
+     */
+    public function getSlotCampaignStatuses(): GetSlotCampaignStatusesResponseContainer
+    {
+        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetSlotCampaignStatuses";
+
+        try {
+            /** @noinspection PhpUndefinedMethodInspection */
+            $response = Request::post($url, json_encode((object)[]))
+                ->expectsJson()
+                ->sendsJson()
+                ->send();
+
+        } /** @noinspection PhpRedundantCatchClauseInspection */
+        catch (ConnectionErrorException $e) {
+
+            throw new CantConnectToServerException($e->getCode(), $e->getMessage());
+        }
+
+        $result = new GetSlotCampaignStatusesResponseContainer();
+        $mapper = new JsonMapper();
+
+        $result = $mapper->map($response->body, $result);
+
+        return $this->castGetSlotStatusesModel($result);
+    }
+
     private function castCreateSlotCampaignModel($obj): CreateSlotCampaignResponseContainer
     {
         return $obj;
@@ -232,6 +263,11 @@ class SlotCampaignService extends BaseService
     }
 
     private function castGetSlotCampaignsModel($obj): GetSlotCampaignsResponseContainer
+    {
+        return $obj;
+    }
+
+    private function castGetSlotStatusesModel($obj): GetSlotCampaignStatusesResponseContainer
     {
         return $obj;
     }
