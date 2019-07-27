@@ -15,8 +15,6 @@ use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsResponseContainer;
-use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignStatusesResponseContainer;
-use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignTypesResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotConfigsResponseContainer;
 use JsonMapper_Exception;
 
@@ -166,40 +164,6 @@ class SlotCampaignService extends BaseService
     }
 
     /**
-     * @return GetSlotCampaignStatusesResponseContainer
-     * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
-     */
-    public function getSlotCampaignStatuses(): GetSlotCampaignStatusesResponseContainer
-    {
-        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetSlotCampaignStatuses";
-
-        $response = $this->postRequest($url, $this->EMPTY_ARRAY);
-
-        $result = new GetSlotCampaignStatusesResponseContainer();
-        $result = $this->mapFromJsonToClass($response->body, $result);
-
-        return $this->castGetSlotCampaignStatusesModel($result);
-    }
-
-    /**
-     * @return GetSlotCampaignTypesResponseContainer
-     * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
-     */
-    public function getSlotCampaignTypes(): GetSlotCampaignTypesResponseContainer
-    {
-        $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetSlotCampaignTypes";
-
-        $response = $this->postRequest($url, $this->EMPTY_ARRAY);
-
-        $result = new GetSlotCampaignTypesResponseContainer();
-        $result = $this->mapFromJsonToClass($response->body, $result);
-
-        return $this->castGetSlotCampaignTypesModel($result);
-    }
-
-    /**
      * @param AddPlayersToSlotCampaignRequest $request
      * @return AddPlayersToCampaignResponseContainer
      * @throws CantConnectToServerException
@@ -243,16 +207,6 @@ class SlotCampaignService extends BaseService
     }
 
     private function castGetSlotCampaignsModel($obj): GetSlotCampaignsResponseContainer
-    {
-        return $obj;
-    }
-
-    private function castGetSlotCampaignStatusesModel($obj): GetSlotCampaignStatusesResponseContainer
-    {
-        return $obj;
-    }
-
-    private function castGetSlotCampaignTypesModel($obj): GetSlotCampaignTypesResponseContainer
     {
         return $obj;
     }

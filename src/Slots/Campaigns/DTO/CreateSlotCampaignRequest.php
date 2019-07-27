@@ -4,10 +4,12 @@
 namespace Betsolutions\Casino\SDK\Slots\Campaigns\DTO;
 
 
+use Betsolutions\Casino\SDK\Slots\Campaigns\Enums\SlotCampaignType;
+
 class CreateSlotCampaignRequest
 {
     /**
-     * @var int
+     * @var SlotCampaignType
      */
     public $campaignTypeId;
     /**

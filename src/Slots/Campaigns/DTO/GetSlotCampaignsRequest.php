@@ -4,6 +4,8 @@
 namespace Betsolutions\Casino\SDK\Slots\Campaigns\DTO;
 
 
+use Betsolutions\Casino\SDK\Slots\Campaigns\Enums\SlotCampaignStatus;
+
 class GetSlotCampaignsRequest
 {
     /**
@@ -27,7 +29,7 @@ class GetSlotCampaignsRequest
      */
     public $startDateTo;
     /**
-     * @var int
+     * @var SlotCampaignStatus
      */
     public $statusId;
     /**
