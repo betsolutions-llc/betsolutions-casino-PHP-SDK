@@ -4,8 +4,6 @@
 namespace Betsolutions\Casino\SDK\TableGames\Bura\DTO;
 
 
-use Betsolutions\Casino\SDK\TableGames\Bura\Enums\BuraAchievementType;
-
 class BuraAchievement
 {
     /**
@@ -17,7 +15,7 @@ class BuraAchievement
      */
     public $createDate;
     /**
-     * @var BuraAchievementType
+     * @var \Betsolutions\Casino\SDK\TableGames\Bura\Enums\BuraAchievementType
      */
     public $achievementTypeId;
     /**

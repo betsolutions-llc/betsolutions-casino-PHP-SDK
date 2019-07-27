@@ -4,8 +4,6 @@
 namespace Betsolutions\Casino\SDK\TableGames\Backgammon\DTO;
 
 
-use Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonAchievementType;
-
 class BackgammonAchievement
 {
     /**
@@ -17,7 +15,7 @@ class BackgammonAchievement
      */
     public $createDate;
     /**
-     * @var BackgammonAchievementType
+     * @var \Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonAchievementType
      */
     public $achievementTypeId;
     /**

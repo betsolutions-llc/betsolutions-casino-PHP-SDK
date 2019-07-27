@@ -31,15 +31,15 @@ class BuraTournament
      */
     public $registeredPlayerCount;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Bura\Enums\BuraTournamentType
      */
     public $tournamentTypeId;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Bura\Enums\BuraTournamentStatus
      */
     public $statusId;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Bura\Enums\BuraGameType
      */
     public $gameTypeId;
     /**

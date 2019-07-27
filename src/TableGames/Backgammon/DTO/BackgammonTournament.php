@@ -31,15 +31,15 @@ class BackgammonTournament
      */
     public $registeredPlayerCount;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonTournamentType
      */
     public $tournamentTypeId;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonTournamentStatus
      */
     public $statusId;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Backgammon\Enums\BackgammonGameType
      */
     public $gameTypeId;
     /**

@@ -31,15 +31,15 @@ class OkeyTournament
      */
     public $registeredPlayerCount;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Okey\Enums\OkeyTournamentType
      */
     public $tournamentTypeId;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Okey\Enums\OkeyTournamentStatus
      */
     public $statusId;
     /**
-     * @var int
+     * @var \Betsolutions\Casino\SDK\TableGames\Okey\Enums\OkeyGameType
      */
     public $gameTypeId;
     /**
