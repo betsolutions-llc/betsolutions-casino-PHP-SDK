@@ -1,30 +1,30 @@
 <?php
 
 
-namespace Betsolutions\Casino\SDK\TableGames\Okey\Services;
+namespace Betsolutions\Casino\SDK\TableGames\Seka\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
-use Betsolutions\Casino\SDK\TableGames\Okey\DTO\GetOkeyAchievementsRequest;
-use Betsolutions\Casino\SDK\TableGames\Okey\DTO\GetOkeyAchievementsResponseContainer;
+use Betsolutions\Casino\SDK\TableGames\Seka\DTO\GetSekaAchievementsRequest;
+use Betsolutions\Casino\SDK\TableGames\Seka\DTO\GetSekaAchievementsResponseContainer;
 use JsonMapper_Exception;
 
-class OkeyAchievementService extends BaseService
+class SekaAchievementService extends BaseService
 {
     public function __construct(MerchantAuthInfo $authInfo)
     {
-        parent::__construct($authInfo, 'OkeyAchievement');
+        parent::__construct($authInfo, 'SekaAchievement');
     }
 
     /**
-     * @param GetOkeyAchievementsRequest $request
-     * @return GetOkeyAchievementsResponseContainer
+     * @param GetSekaAchievementsRequest $request
+     * @return GetSekaAchievementsResponseContainer
      * @throws CantConnectToServerException
      * @throws JsonMapper_Exception
      */
-    public function getAchievements(GetOkeyAchievementsRequest $request): GetOkeyAchievementsResponseContainer
+    public function getAchievements(GetSekaAchievementsRequest $request): GetSekaAchievementsResponseContainer
     {
         $url = "{$this->authInfo->baseUrl}/{$this->controller}/GetAchievements";
 
@@ -40,15 +40,16 @@ class OkeyAchievementService extends BaseService
         $data['PageSize'] = $request->pageSize;
         $data['Hash'] = $hash;
 
+
         $response = $this->postRequest($url, $data);
 
-        $result = new GetOkeyAchievementsResponseContainer();
+        $result = new GetSekaAchievementsResponseContainer();
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castAchievements($result);
     }
 
-    private function castAchievements($obj): GetOkeyAchievementsResponseContainer
+    private function castAchievements($obj): GetSekaAchievementsResponseContainer
     {
         return $obj;
     }
