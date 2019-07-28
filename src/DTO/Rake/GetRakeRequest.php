@@ -26,7 +26,7 @@ class GetRakeRequest
     public function __construct(
         string $fromDate = null,
         string $toDate = null,
-        string $gameId = null,
+        int $gameId = null,
         string $userId = null
     )
     {

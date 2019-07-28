@@ -8,9 +8,9 @@ class MerchantAuthInfo
     public $privateKey;
     public $baseUrl;
 
-    public function __construct($merchantId, $baseUrl, $privateKey)
+    public function __construct(int $merchantId, string $baseUrl, string $privateKey)
     {
-        $this->baseUrl = $baseUrl.'/v1';
+        $this->baseUrl = $baseUrl . '/v1';
         $this->merchantId = $merchantId;
         $this->privateKey = $privateKey;
     }
