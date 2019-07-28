@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Backgammon\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonAchievementsRequest;
 use Betsolutions\Casino\SDK\TableGames\Backgammon\DTO\GetBackgammonAchievementsResponseContainer;
-use JsonMapper_Exception;
 
 class BackgammonAchievementService extends BaseService
 {
@@ -22,7 +22,7 @@ class BackgammonAchievementService extends BaseService
      * @param GetBackgammonAchievementsRequest $request
      * @return GetBackgammonAchievementsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getAchievements(GetBackgammonAchievementsRequest $request): GetBackgammonAchievementsResponseContainer
     {
@@ -43,7 +43,6 @@ class BackgammonAchievementService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetBackgammonAchievementsResponseContainer();
-
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castAchievements($result);

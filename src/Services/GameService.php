@@ -6,8 +6,8 @@ namespace Betsolutions\Casino\SDK\Services;
 
 use Betsolutions\Casino\SDK\DTO\Game\GetGamesResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
-use JsonMapper_Exception;
 
 class GameService extends BaseService
 {
@@ -19,7 +19,7 @@ class GameService extends BaseService
     /**
      * @return GetGamesResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getGames(): GetGamesResponseContainer
     {

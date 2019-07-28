@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Bura\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Bura\DTO\GetBuraTournamentsRequest;
 use Betsolutions\Casino\SDK\TableGames\Bura\DTO\GetBuraTournamentsResponseContainer;
-use JsonMapper_Exception;
 
 class BuraTournamentService extends BaseService
 {
@@ -22,7 +22,7 @@ class BuraTournamentService extends BaseService
      * @param GetBuraTournamentsRequest $request
      * @return GetBuraTournamentsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getTournaments(GetBuraTournamentsRequest $request): GetBuraTournamentsResponseContainer
     {
@@ -48,7 +48,6 @@ class BuraTournamentService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetBuraTournamentsResponseContainer();
-
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->cast($result);

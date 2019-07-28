@@ -5,6 +5,7 @@ namespace Betsolutions\Casino\SDK\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Httpful\Exception\ConnectionErrorException;
 use Httpful\Request;
@@ -66,11 +67,15 @@ abstract class BaseService
      * @param object $data
      * @param object $model
      * @return object
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     protected function mapFromJsonToClass(object $data, object $model): object
     {
-        return $this->jsonMapper->map($data, $model);
+        try {
+            return $this->jsonMapper->map($data, $model);
+        } catch (JsonMapper_Exception $ex) {
+            throw new JsonMappingException($ex->getMessage(), $ex->getCode(), $ex->getPrevious());
+        }
     }
 
     private function castResponse($obj): Response

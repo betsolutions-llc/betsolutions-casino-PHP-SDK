@@ -7,8 +7,8 @@ namespace Betsolutions\Casino\SDK\Services;
 use Betsolutions\Casino\SDK\DTO\Rake\GetRakeRequest;
 use Betsolutions\Casino\SDK\DTO\Rake\GetRakeResponseContainer;
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
-use JsonMapper_Exception;
 
 class RakeService extends BaseService
 {
@@ -21,7 +21,7 @@ class RakeService extends BaseService
      * @param GetRakeRequest $request
      * @return GetRakeResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getRake(GetRakeRequest $request): GetRakeResponseContainer
     {
@@ -40,7 +40,6 @@ class RakeService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetRakeResponseContainer();
-
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->cast($result);

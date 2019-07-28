@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Seka\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Seka\DTO\GetSekaAchievementsRequest;
 use Betsolutions\Casino\SDK\TableGames\Seka\DTO\GetSekaAchievementsResponseContainer;
-use JsonMapper_Exception;
 
 class SekaAchievementService extends BaseService
 {
@@ -22,7 +22,7 @@ class SekaAchievementService extends BaseService
      * @param GetSekaAchievementsRequest $request
      * @return GetSekaAchievementsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getAchievements(GetSekaAchievementsRequest $request): GetSekaAchievementsResponseContainer
     {

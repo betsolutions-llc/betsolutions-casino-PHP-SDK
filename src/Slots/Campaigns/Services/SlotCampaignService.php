@@ -5,6 +5,7 @@ namespace Betsolutions\Casino\SDK\Slots\Campaigns\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\AddPlayersToCampaignResponseContainer;
@@ -16,7 +17,6 @@ use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\DeactivateSlotCampaignResponseCo
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsRequest;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotCampaignsResponseContainer;
 use Betsolutions\Casino\SDK\Slots\Campaigns\DTO\GetSlotConfigsResponseContainer;
-use JsonMapper_Exception;
 
 class SlotCampaignService extends BaseService
 {
@@ -45,7 +45,7 @@ class SlotCampaignService extends BaseService
      * @param CreateSlotCampaignRequest $request
      * @return CreateSlotCampaignResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function createSlotCampaign(CreateSlotCampaignRequest $request): CreateSlotCampaignResponseContainer
     {
@@ -83,7 +83,7 @@ class SlotCampaignService extends BaseService
      * @param DeactivateSlotCampaignRequest $request
      * @return DeactivateSlotCampaignResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function deactivateSlotCampaign(DeactivateSlotCampaignRequest $request): DeactivateSlotCampaignResponseContainer
     {
@@ -107,7 +107,7 @@ class SlotCampaignService extends BaseService
     /**
      * @return GetSlotConfigsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getSlotConfigs(): GetSlotConfigsResponseContainer
     {
@@ -131,7 +131,7 @@ class SlotCampaignService extends BaseService
      * @param GetSlotCampaignsRequest $request
      * @return GetSlotCampaignsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getSlotCampaigns(GetSlotCampaignsRequest $request): GetSlotCampaignsResponseContainer
     {
@@ -167,7 +167,7 @@ class SlotCampaignService extends BaseService
      * @param AddPlayersToSlotCampaignRequest $request
      * @return AddPlayersToCampaignResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function addPlayersToCampaign(AddPlayersToSlotCampaignRequest $request): AddPlayersToCampaignResponseContainer
     {

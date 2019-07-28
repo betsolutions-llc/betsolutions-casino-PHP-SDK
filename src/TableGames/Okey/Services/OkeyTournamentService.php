@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Okey\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Okey\DTO\GetOkeyTournamentsRequest;
 use Betsolutions\Casino\SDK\TableGames\Okey\DTO\GetOkeyTournamentsResponseContainer;
-use JsonMapper_Exception;
 
 class OkeyTournamentService extends BaseService
 {
@@ -22,7 +22,7 @@ class OkeyTournamentService extends BaseService
      * @param GetOkeyTournamentsRequest $request
      * @return GetOkeyTournamentsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getTournaments(GetOkeyTournamentsRequest $request): GetOkeyTournamentsResponseContainer
     {
@@ -49,7 +49,6 @@ class OkeyTournamentService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetOkeyTournamentsResponseContainer();
-
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->cast($result);

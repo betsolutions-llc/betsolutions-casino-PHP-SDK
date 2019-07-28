@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Okey\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Okey\DTO\GetOkeyAchievementsRequest;
 use Betsolutions\Casino\SDK\TableGames\Okey\DTO\GetOkeyAchievementsResponseContainer;
-use JsonMapper_Exception;
 
 class OkeyAchievementService extends BaseService
 {
@@ -22,7 +22,7 @@ class OkeyAchievementService extends BaseService
      * @param GetOkeyAchievementsRequest $request
      * @return GetOkeyAchievementsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getAchievements(GetOkeyAchievementsRequest $request): GetOkeyAchievementsResponseContainer
     {

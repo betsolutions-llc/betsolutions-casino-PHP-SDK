@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Bura\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Bura\DTO\GetBuraAchievementsRequest;
 use Betsolutions\Casino\SDK\TableGames\Bura\DTO\GetBuraAchievementsResponseContainer;
-use JsonMapper_Exception;
 
 class BuraAchievementService extends BaseService
 {
@@ -22,7 +22,7 @@ class BuraAchievementService extends BaseService
      * @param GetBuraAchievementsRequest $request
      * @return GetBuraAchievementsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getAchievements(GetBuraAchievementsRequest $request): GetBuraAchievementsResponseContainer
     {
@@ -43,7 +43,6 @@ class BuraAchievementService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetBuraAchievementsResponseContainer();
-
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castAchievements($result);

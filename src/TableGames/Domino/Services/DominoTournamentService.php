@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Domino\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Domino\DTO\GetDominoTournamentsRequest;
 use Betsolutions\Casino\SDK\TableGames\Domino\DTO\GetDominoTournamentsResponseContainer;
-use JsonMapper_Exception;
 
 class DominoTournamentService extends BaseService
 {
@@ -22,7 +22,7 @@ class DominoTournamentService extends BaseService
      * @param GetDominoTournamentsRequest $request
      * @return GetDominoTournamentsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getTournaments(GetDominoTournamentsRequest $request): GetDominoTournamentsResponseContainer
     {

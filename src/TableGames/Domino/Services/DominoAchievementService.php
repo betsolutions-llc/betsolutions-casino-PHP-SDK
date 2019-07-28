@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Domino\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Domino\DTO\GetDominoAchievementsRequest;
 use Betsolutions\Casino\SDK\TableGames\Domino\DTO\GetDominoAchievementsResponseContainer;
-use JsonMapper_Exception;
 
 class DominoAchievementService extends BaseService
 {
@@ -22,7 +22,7 @@ class DominoAchievementService extends BaseService
      * @param GetDominoAchievementsRequest $request
      * @return GetDominoAchievementsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getAchievements(GetDominoAchievementsRequest $request): GetDominoAchievementsResponseContainer
     {
@@ -43,7 +43,6 @@ class DominoAchievementService extends BaseService
         $response = $this->postRequest($url, $data);
 
         $result = new GetDominoAchievementsResponseContainer();
-
         $result = $this->mapFromJsonToClass($response->body, $result);
 
         return $this->castAchievements($result);

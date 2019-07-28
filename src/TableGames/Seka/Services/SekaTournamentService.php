@@ -5,11 +5,11 @@ namespace Betsolutions\Casino\SDK\TableGames\Seka\Services;
 
 
 use Betsolutions\Casino\SDK\Exceptions\CantConnectToServerException;
+use Betsolutions\Casino\SDK\Exceptions\JsonMappingException;
 use Betsolutions\Casino\SDK\MerchantAuthInfo;
 use Betsolutions\Casino\SDK\Services\BaseService;
 use Betsolutions\Casino\SDK\TableGames\Seka\DTO\GetSekaTournamentsRequest;
 use Betsolutions\Casino\SDK\TableGames\Seka\DTO\GetSekaTournamentsResponseContainer;
-use JsonMapper_Exception;
 
 class SekaTournamentService extends BaseService
 {
@@ -22,7 +22,7 @@ class SekaTournamentService extends BaseService
      * @param GetSekaTournamentsRequest $request
      * @return GetSekaTournamentsResponseContainer
      * @throws CantConnectToServerException
-     * @throws JsonMapper_Exception
+     * @throws JsonMappingException
      */
     public function getTournaments(GetSekaTournamentsRequest $request): GetSekaTournamentsResponseContainer
     {
